@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template
 from models.user_model import User
 from views.user_view import UserView
 from firebase_admin import firestore
@@ -24,3 +24,6 @@ def register_user():
     user_ref.set(user.to_dict())
 
     return UserView.user_created(user_ref.id)
+@user_controller.route('/register')
+def show_register_form():
+    return render_template('register_user.html')
