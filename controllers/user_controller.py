@@ -44,7 +44,7 @@ def list_users():
             user_data['id'] = doc.id
             users.append(user_data)
 
-        return jsonify(users), 200
+        return render_template('users.html', users=users)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
