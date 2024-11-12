@@ -40,7 +40,8 @@
         transition: background-color 0.3s ease;
       }
 
-      .btn-deletar, .btn-editar {
+      .btn-deletar,
+      .btn-editar {
         background: none;
         border: none;
         cursor: pointer;
@@ -154,12 +155,14 @@
           <label for="editEmail">Email:</label>
           <input type="email" id="editEmail" required />
           <label for="editCpf">CPF:</label>
-          <input type="text" id="editCpf" required>
+          <input type="text" id="editCpf" required />
           <label for="birth-DateEdit">data de nascimento:</label>
-          <input type="date"  id="birth-DateEdit" required>
+          <input type="date" id="birth-DateEdit" required />
 
           <button type="submit" class="btn-confirmar">Salvar</button>
-          <button type="button" class="btn-cancelar" id="cancelEdit">Cancelar</button>
+          <button type="button" class="btn-cancelar" id="cancelEdit">
+            Cancelar
+          </button>
         </form>
       </div>
     </div>
@@ -177,23 +180,20 @@
     const cancelEditButton = document.getElementById("cancelEdit");
 
     function formatCPF(cpf) {
-    cpf = cpf.replace(/\D/g, '');
-    if (cpf.length > 11) cpf = cpf.slice(0, 11);
-    return cpf.replace(/(\d{3})(\d)/, '$1.$2')
-              .replace(/(\d{3})(\d)/, '$1.$2')
-              .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-  }
+      cpf = cpf.replace(/\D/g, "");
+      if (cpf.length > 11) cpf = cpf.slice(0, 11);
+      return cpf
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    }
 
-  const editCpfInput = document.getElementById("editCpf");
-  
-  editCpfInput.addEventListener("input", function () {
-    this.value = formatCPF(this.value);
-  });
+    const editCpfInput = document.getElementById("editCpf");
 
+    editCpfInput.addEventListener("input", function () {
+      this.value = formatCPF(this.value);
+    });
 
-
-    
-  
     // Abrir o modal de deletar
     for (let i = 0; i < deleteButtons.length; i++) {
       deleteButtons[i].addEventListener("click", function () {
@@ -201,7 +201,7 @@
         modal.style.display = "flex";
       });
     }
-  
+
     // Confirmar exclusão
     confirmDeleteButton.addEventListener("click", async function () {
       modal.style.display = "none";
@@ -211,7 +211,9 @@
         });
         if (response.ok) {
           alert("Usuário deletado com sucesso.");
-          const row = document.querySelector(`button[data-id='${selectedUserId}']`).closest("tr");
+          const row = document
+            .querySelector(`button[data-id='${selectedUserId}']`)
+            .closest("tr");
           row.remove();
         } else {
           const data = await response.json();
@@ -221,13 +223,13 @@
         alert("Erro ao deletar o usuário: " + error.message);
       }
     });
-  
+
     // Cancelar exclusão
     cancelDeleteButton.addEventListener("click", function () {
       modal.style.display = "none";
       selectedUserId = null;
     });
-  
+
     // Abrir o modal de edição
     for (let i = 0; i < editButtons.length; i++) {
       editButtons[i].addEventListener("click", function () {
@@ -235,26 +237,26 @@
         const row = this.closest("tr");
         const userName = row.cells[1].innerText;
         const userEmail = row.cells[2].innerText;
-  
+
         // Preencher o formulário de edição
         document.getElementById("editName").value = userName;
         document.getElementById("editEmail").value = userEmail;
-  
+
         editModal.style.display = "flex";
       });
     }
-  
+
     // Salvar as alterações
     editUserForm.addEventListener("submit", async function (event) {
       event.preventDefault();
-  
+
       const userData = {
         name: document.getElementById("editName").value,
         email: document.getElementById("editEmail").value,
         cpf: document.getElementById("editCpf").value,
         birth_date: document.getElementById("birth-DateEdit").value,
       };
-  
+
       try {
         const response = await fetch(`/update_user/${selectedUserId}`, {
           method: "PUT",
@@ -263,13 +265,15 @@
           },
           body: JSON.stringify(userData),
         });
-  
+
         if (response.ok) {
           alert("Usuário atualizado com sucesso.");
-          const row = document.querySelector(`button[data-id='${selectedUserId}']`).closest("tr");
+          const row = document
+            .querySelector(`button[data-id='${selectedUserId}']`)
+            .closest("tr");
           row.cells[1].innerText = userData.name;
           row.cells[2].innerText = userData.email;
-  
+
           editModal.style.display = "none";
         } else {
           const data = await response.json();
@@ -279,13 +283,13 @@
         alert("Erro ao atualizar o usuário: " + error.message);
       }
     });
-  
+
     // Cancelar edição
     cancelEditButton.addEventListener("click", function () {
       editModal.style.display = "none";
       selectedUserId = null;
     });
-  
+
     // Fechar os modais ao clicar fora deles
     window.addEventListener("click", function (event) {
       if (event.target == modal) {
@@ -296,5 +300,4 @@
       }
     });
   </script>
-  
 </html>

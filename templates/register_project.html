@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register Project</title>
+    <style>
+      /* Estilo embutido */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      h1 {
+        color: #333;
+      }
+      form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+      }
+      label {
+        display: block;
+        margin-top: 10px;
+      }
+      input {
+        width: 50%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+      }
+      button {
+        margin-top: 15px;
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Cadastre um projeto</h1>
+    <form id="projectForm">
+      <label for="name">Project Name</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="min_deadline">Minimum Deadline</label>
+      <input type="date" id="min_deadline" name="min_deadline" required />
+
+      <label for="max_deadline">Maximum Deadline</label>
+      <input type="date" id="max_deadline" name="max_deadline" required />
+
+      <label for="value">Value</label>
+      <input type="number" id="value" name="value" required />
+    </br>
+
+      <button type="button" onclick="submitForm()">Register Project</button>
+    </form>
+
+    <script>
+      function submitForm() {
+        const form = document.getElementById("projectForm");
+        const data = {
+          name: form.name.value,
+          min_deadline: form.min_deadline.value,
+          max_deadline: form.max_deadline.value,
+          value: form.value.value,
+        };
+
+        fetch("/register_project", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert("Project registered ");
+          })
+          .catch((error) => {
+            alert("Error registering project: " + error);
+          });
+      }
+    </script>
+  </body>
+</html>
