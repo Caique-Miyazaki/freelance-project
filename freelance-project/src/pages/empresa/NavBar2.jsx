@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import "./navBar.css";
-import logo from "../assets/favicon.ico";
+import "../../componentes/navBar.css";
+import logo from "../../assets/favicon.ico";
 
-const NavBar = () => {
+const NavBar2 = () => {
   return (
     <nav id="navBar">
       <div className="cabeçalho">
@@ -18,13 +18,13 @@ const NavBar = () => {
 
       <div className="login-register">
         <p>
-          <Link to="/login" className="link">
-            faça o login
+          <Link to="/CadastrarProjeto" className="link">
+            Poste um Projeto
           </Link>
         </p>
         <p>
-          <Link to="/register" className="link">
-            <button className="link-cadastre">Cadastre-se</button>
+          <Link to="/listarPropostas" className="link">
+            <button className="link-cadastre">Listar propostas</button>
           </Link>
         </p>
       </div>
@@ -32,4 +32,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default NavBar2;

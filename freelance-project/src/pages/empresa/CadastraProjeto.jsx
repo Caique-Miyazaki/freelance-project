@@ -50,7 +50,7 @@ const CadastraProjeto = () => {
 
       if (response.ok) {
         console.log("Projeto cadastrado com sucesso!");
-        navigate("/vagas");
+        navigate("/listarPropostas");
       } else {
         console.error("Erro ao cadastrar o projeto.");
       }

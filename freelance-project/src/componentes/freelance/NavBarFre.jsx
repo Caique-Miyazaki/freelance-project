@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import "./navBar.css";
-import logo from "../assets/favicon.ico";
+import "../../componentes/navBar.css";
+import logo from "../../assets/favicon.ico";
 
-const NavBar = () => {
+const NavBarFree = () => {
   return (
     <nav id="navBar">
       <div className="cabeçalho">
@@ -11,20 +11,15 @@ const NavBar = () => {
         </div>
         <h2>
           <Link to="/home" className="link">
-            Nome do Site
+            Freela
           </Link>
         </h2>
       </div>
 
       <div className="login-register">
         <p>
-          <Link to="/login" className="link">
-            Faça log in
-          </Link>
-        </p>
-        <p>
-          <Link to="/register" className="link">
-            <button className="link-cadastre">Cadastre-se</button>
+          <Link to="#" className="link">
+            Listar minhas vagas
           </Link>
         </p>
       </div>
@@ -32,4 +27,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default NavBarFree;

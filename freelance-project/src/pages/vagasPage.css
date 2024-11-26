@@ -1,25 +1,80 @@
 .serviços {
-  position: relative;
-  left: 70%;
+  display: flex;
+  justify-content: end;
+  padding: 20px;
+}
+
+.filter {
+  position: fixed; /* Fixa o filtro na esquerda */
+  top: 60px;
+  left: 0;
+  width: 250px; /* Define a largura do filtro */
+  height: 50%; /* Preenche toda a altura da tela */
+  background-color: #17192c;
+  padding: 20px;
+  border-radius: 1rem;
+  z-index: 10; /* Garante que o filtro fique acima do conteúdo das vagas */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
-.vaga {
+.vagas .skills {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.vagas ul {
+  list-style-type: none; /* Remove os marcadores (bolinhas) da lista */
+  padding: 0;
+}
+
+li > {
+  margin-bottom: 5px;
+}
+.vagas .skills span {
+  background-color: #383838;
+  color: white;
+  border-radius: 1rem;
+  padding: 5px 15px;
+  margin: 5px;
+  font-size: 14px;
+}
+.filter label,
+.filter input {
+  margin: 10px 0;
+  color: white;
+}
+.filter select {
+  margin: 10px;
+  color: #17192c;
+}
+
+.vagas-container {
+  margin-left: 270px; /* Dá espaço para o filtro fixo */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: calc(100% - 270px); /* Ajusta a largura das vagas */
+}
+
+.vagas {
   background-color: #17192c;
   border: solid 10px rgba(255, 255, 255, 0.11);
   border-radius: 2rem;
   margin: 20px;
   padding: 20px 15px;
-  width: 500px;
+  width: 800px;
 }
-p.preco {
-  position: relative;
-  top: 10px;
-}
-.vaga > p {
+
+.vagas > p,
+h3 {
   margin-top: 10px;
   margin-bottom: 20px;
+}
+.vagas p {
+  word-wrap: break-word; /* Quebra palavras longas */
+  overflow-wrap: break-word; /* Garante que as palavras se quebrem quando ultrapassarem o limite */
+  white-space: normal; /* Garante que o texto possa quebrar a linha */
 }
 
 .btn- {

@@ -7,17 +7,17 @@ import "./index.css";
 import App from "./App.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import VagasPage from "./pages/VagasPage.jsx";
-import Chat from "./componentes/Chat.jsx";
-import Join from "./componentes/Join.jsx";
+
 import LoginPage from "./pages/LoginPage.jsx";
 import SingUpPage from "./componentes/SingUpPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import SignUpCompanyPage from "./componentes/SingUpEmpresa.jsx";
 import CadastraProjeto from "./pages/empresa/CadastraProjeto.jsx";
 import FreelanceInProjeto from "./pages/empresa/FreelanceInProjeto.jsx";
+import Proposta from "./componentes/freelance/proposta.jsx";
+import PropostasPage from "./pages/empresa/ListarPropostas.jsx";
 
 function Root() {
-  const [socket, setSocket] = useState(null);
   const [user, setUser] = useState(null);
 
   return (
@@ -36,12 +36,14 @@ function Root() {
             <Route path="/home" element={<HomePage />} />
             <Route path="/CadastrarProjeto" element={<CadastraProjeto />} />
             <Route path="/vagas" element={<VagasPage user={user} />} />
+            <Route path="/vagas/proposta/:projectId" element={<Proposta />} />
             <Route path="/freelance" element={<FreelanceInProjeto />} />
+            <Route path="/listarPropostas" element={<PropostasPage />} />
+
             <Route
-              path="/chat/:empresaEmail"
-              element={<Chat socket={socket} user={user} />}
+              path="/listarPropostas/:projectId"
+              element={<PropostasPage />}
             />
-            <Route path="/join" element={<Join setSocket={setSocket} />} />
           </Route>
         </Routes>
       </BrowserRouter>

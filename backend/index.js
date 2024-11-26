@@ -129,6 +129,142 @@ app.post("/api/register_project", async (req, res) => {
     return res.status(500).json({ error: "Erro ao registrar projeto." });
   }
 });
+// Endpoint para obter as vagas criadas pela empresa
+app.get("/api/empresa/vagas", async (req, res) => {
+  const { companyUid } = req.query; // Recebe o companyUid da query
+
+  if (!companyUid) {
+    return res.status(400).json({ error: "companyUid não fornecido." });
+  }
+
+  try {
+    // Busca as vagas no Firestore relacionadas ao companyUid
+    const projectsSnapshot = await db
+      .collection("projects")
+      .where("firebaseUid", "==", companyUid)
+      .get();
+
+    const projects = projectsSnapshot.docs.map((doc) => doc.data());
+
+    res.status(200).json(projects);
+  } catch (error) {
+    console.error("Erro ao buscar as vagas da empresa:", error);
+    res.status(500).json({ error: "Erro ao buscar as vagas da empresa." });
+  }
+});
+
+app.post("/api/candidatar", async (req, res) => {
+  const { freelancerId, projectId, propostaValor, propostaData } = req.body;
+
+  if (!freelancerId || !projectId || !propostaValor || !propostaData) {
+    return res.status(400).json({ error: "Todos os campos são obrigatórios." });
+  }
+
+  try {
+    const propostaId = uuidv4(); // Gerar um ID único para a proposta
+    const propostaRef = db.collection("propostas").doc(propostaId);
+
+    await propostaRef.set({
+      freelancerId,
+      projectId,
+      propostaValor,
+      propostaData,
+      status: "Pendente", // Status inicial da proposta
+      createdAt: new Date().toISOString(),
+    });
+
+    // Aqui você pode implementar a lógica para notificar a empresa, caso queira
+    // Exemplo: envio de e-mail ou notificação para a empresa
+
+    return res.status(201).json({
+      message: "Proposta enviada com sucesso!",
+      propostaId,
+    });
+  } catch (error) {
+    console.error("Erro ao enviar proposta:", error);
+    return res.status(500).json({ error: "Erro ao enviar proposta." });
+  }
+});
+
+// Endpoint para a empresa visualizar as propostas de seus projetos
+// app.get("/api/propostas", async (req, res) => {
+//   const { projectId } = req.query;
+
+//   if (!projectId) {
+//     return res.status(400).json({ error: "O ID do projeto é obrigatório." });
+//   }
+
+//   try {
+//     const snapshot = await db
+//       .collection("propostas")
+//       .where("projectId", "==", projectId)
+//       .get();
+
+//     const propostas = snapshot.docs.map((doc) => ({
+//       id: doc.id,
+//       ...doc.data(),
+//     }));
+//     return res.json(propostas);
+//   } catch (error) {
+//     console.error("Erro ao buscar propostas:", error);
+//     res.status(500).json({ error: "Erro ao buscar propostas." });
+//   }
+// });
+app.get("/api/propostas", async (req, res) => {
+  try {
+    const snapshot = await db.collection("propostas").get();
+
+    const propostas = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return res.json(propostas); // Retorna todas as propostas
+  } catch (error) {
+    console.error("Erro ao buscar propostas:", error);
+    res.status(500).json({ error: "Erro ao buscar propostas." });
+  }
+});
+
+app.get("/api/projects/:projectId", async (req, res) => {
+  const { projectId } = req.params;
+
+  if (!projectId) {
+    return res.status(400).json({ error: "ID do projeto é necessário." });
+  }
+
+  try {
+    const projectDoc = await db.collection("projects").doc(projectId).get();
+
+    if (!projectDoc.exists) {
+      return res.status(404).json({ error: "Projeto não encontrado." });
+    }
+
+    return res.status(200).json(projectDoc.data());
+  } catch (error) {
+    console.error("Erro ao buscar projeto:", error);
+    return res.status(500).json({ error: "Erro ao buscar projeto." });
+  }
+});
+// Exemplo de implementação com Express
+app.patch("/api/propostas/:propostaId/status", async (req, res) => {
+  const { propostaId } = req.params;
+  const { status } = req.body;
+
+  // Lógica para atualizar o status da proposta no banco de dados
+  try {
+    const proposta = await Proposta.findById(propostaId); // Supondo que você use um banco de dados NoSQL como MongoDB
+    if (!proposta) {
+      return res.status(404).json({ error: "Proposta não encontrada" });
+    }
+
+    proposta.status = status;
+    await proposta.save(); // Atualiza a proposta no banco de dados
+
+    res.status(200).json({ message: `Proposta ${status} com sucesso!` });
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao atualizar o status da proposta" });
+  }
+});
 
 // Endpoint para obter projetos
 app.get("/api/projects", async (req, res) => {
