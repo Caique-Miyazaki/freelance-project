@@ -1,0 +1,58 @@
+.container-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.freelance {
+  width: 20%;
+}
+.card {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f5f5f5;
+  color: #0e0f0e;
+  max-width: 1000px;
+  width: 80%;
+  height: 200px;
+  padding: 40px;
+  margin: 0 0 40px 0;
+  box-shadow: 1px 1px 5px 1px #0e0f0e;
+}
+.data {
+  margin-right: 50px;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.desc {
+  width: 90%;
+  margin-right: 30px;
+}
+.desc p {
+  margin-top: 10px;
+  margin-right: 10px;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.desc h2 {
+  position: relative;
+  bottom: 30px;
+  right: 15px;
+  font-weight: 700;
+}
+.btn-chat {
+  position: relative;
+  top: 70px;
+  height: 30px;
+  width: 30px;
+}
+input[type="checkbox"] {
+  position: relative;
+  bottom: 10px;
+  height: 30px;
+  width: 20px;
+}

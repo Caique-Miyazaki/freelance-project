@@ -1,0 +1,118 @@
+.chat-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ajuste conforme necessário */
+}
+
+.chat-body {
+  background-color: #1b1b1a;
+  margin: 10px;
+  padding: 10px;
+  height: 90vh; /* Ajuste a altura conforme necessário */
+  width: 90vh;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column; /* Organiza os itens em coluna */
+  overflow-y: auto; /* Permite rolagem vertical (barra de rolagem vertical) */
+}
+
+/* Estilo da barra de rolagem (vertical) */
+.chat-body::-webkit-scrollbar {
+  width: 8px; /* Largura da barra de rolagem */
+}
+
+.chat-body::-webkit-scrollbar-thumb {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.5
+  ); /* Cor semi-transparente do polegar */
+  border-radius: 10px; /* Bordas arredondadas do polegar */
+}
+
+.chat-body::-webkit-scrollbar-track {
+  background: transparent; /* Torna o trilho transparente */
+  border-radius: 10px; /* Bordas arredondadas do trilho */
+}
+
+.chat-body::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.7
+  ); /* Cor do polegar ao passar o mouse */
+}
+
+/* Estilo da barra de rolagem no Firefox */
+.chat-body {
+  scrollbar-width: thin; /* Largura da barra de rolagem */
+  scrollbar-color: rgba(255, 255, 255, 0.5) transparent; /* Cor do polegar e do trilho */
+}
+
+.chat-body > h1 {
+  text-align: center;
+}
+
+.mensagem-enviada,
+.mensagem-recebida {
+  display: inline-block;
+  max-width: 30%;
+  word-wrap: break-word;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 10px;
+  color: #000;
+}
+
+.mensagem-enviada {
+  background: linear-gradient(to top, #00c6ff, #0072ff);
+  align-self: flex-end;
+  color: #000;
+  font-family: "Helvetica Neue", sans-serif;
+}
+
+.mensagem-recebida {
+  background: linear-gradient(to top, #ff7e5f, #feb47b);
+  align-self: flex-start;
+  color: #000;
+  font-family: "Helvetica Neue", sans-serif;
+}
+
+.author {
+  color: white;
+  display: flex;
+}
+
+.chat-footer {
+  display: flex;
+  margin-top: auto;
+  width: 100%;
+  background-color: #3d3d3a;
+  border-radius: 10px;
+}
+
+.input-enviar {
+  display: inline-block;
+  background-color: rgb(75, 74, 72);
+  border: none;
+  border-radius: 5px;
+  width: 88%;
+  margin: 10px 5px 10px 15px;
+  height: 20px;
+  padding: 5px 10px;
+  color: #fff;
+  outline: none;
+}
+
+.input-enviar:focus {
+  background-color: rgb(100, 100, 100);
+  border: none;
+}
+
+.btn-enviar {
+  margin: 15px 15px 15px 15px;
+  cursor: pointer;
+}

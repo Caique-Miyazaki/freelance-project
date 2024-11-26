@@ -1,0 +1,63 @@
+.container {
+  display: flex;
+  flex-direction: column; /* Organiza os itens em coluna */
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  text-align: center;
+  padding-top: 20px;
+}
+
+.register {
+  display: flex;
+  align-items: center;
+}
+
+.freelance-empresa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.email,
+.password,
+#name {
+  background-color: transparent;
+}
+
+.btn {
+  border-radius: 2rem;
+  padding: 5px 10px;
+  margin: 20px 150px;
+  height: 500px;
+  width: 250px;
+  background-color: #ffd700;
+  color: #383838;
+  font-weight: bold;
+  border: 2px solid;
+  cursor: pointer;
+  transition: 0.7s;
+}
+
+.btn:hover {
+  align-items: center;
+  background-color: #ffd700;
+  .img-freelance {
+    height: 250px;
+    width: 220px;
+  }
+  .img-freelance-empresa {
+    height: 280px;
+    width: 240px;
+  }
+}
+
+.img-freelance-empresa {
+  height: 180px;
+  width: 180px;
+}
+
+.img-freelance {
+  height: 150px;
+  width: 150px;
+}

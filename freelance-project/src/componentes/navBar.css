@@ -1,0 +1,45 @@
+#navBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: rgb(19, 18, 18);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff; /* Cor do texto */
+  height: 60px;
+  position: fixed;
+}
+
+.link-cadastre {
+  background-color: #ffd700;
+  border: solid;
+}
+.login-register {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+.cabeçalho {
+  display: flex;
+  margin-top: 20px;
+  gap: 15px;
+}
+
+div.img {
+  gap: 15px;
+}
+.logoHome {
+  position: relative;
+  bottom: 15%;
+}
+
+#navBar .link {
+  text-decoration: none;
+  color: #fff;
+  transition: 0.3s;
+  font-family: "Roboto Serif", serif;
+  font-weight: 500;
+}
+#navBar .link:hover {
+  color: #ffd700;
+}

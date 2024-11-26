@@ -1,0 +1,41 @@
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza o conteúdo */
+  gap: 20px; /* Espaçamento entre as seções */
+  padding-top: 20px;
+}
+
+/* Seção "Sobre" no topo */
+.about-section {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.footer-item h2 {
+  margin: 5px;
+}
+
+/* Alinhamento das colunas "Contato", "Localização" e "Doações" */
+.footer-links {
+  display: flex;
+  justify-content: space-around; /* Espaçamento igual entre os itens */
+  width: 100%;
+  max-width: 800px; /* Limita a largura das colunas */
+}
+
+.footer-item {
+  text-align: center;
+  flex: 1; /* Garante que cada item ocupe a mesma largura */
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+  .footer-links {
+    flex-direction: column;
+    align-items: center;
+  }
+  .footer-item {
+    margin-bottom: 15px;
+  }
+}

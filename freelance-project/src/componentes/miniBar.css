@@ -1,0 +1,29 @@
+.miniBar {
+  position: absolute; /* Fixar a barra na tela */
+  top: 0;
+  left: 85%;
+  width: 15%; /* Largura de 20% */
+  height: 20%;
+  background-color: #333; /* Cor de fundo */
+  padding: 10px; /* Espaçamento interno */
+  display: flex;
+  justify-content: space-between; /* Espaço entre os itens */
+  align-items: center; /* Alinha os itens verticalmente */
+  z-index: 1000; /* Garante que ficará acima de outros elementos */
+  box-sizing: border-box; /* Considera padding e bordas dentro da largura */
+  height: auto; /* Ajusta a altura de acordo com o conteúdo */
+}
+
+.miniBar div {
+  color: white; /* Cor do texto */
+}
+
+.miniBar a {
+  color: white; /* Cor dos links */
+  text-decoration: none; /* Remove sublinhado */
+}
+
+.miniBar h2 {
+  margin: 0; /* Remove margens */
+  font-size: 16px; /* Tamanho da fonte */
+}

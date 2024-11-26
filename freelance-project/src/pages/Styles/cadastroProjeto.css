@@ -1,0 +1,179 @@
+/* Estilos para a página de cadastro */
+.page-cadastro {
+  width: 600px;
+  max-width: 1000px;
+  margin: auto 0;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+textarea {
+  width: 100%;
+}
+/* Estilo para o formulário */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Estilo para os inputs de texto */
+.input-name,
+.input-description {
+  display: flex;
+  flex-direction: column;
+}
+label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+input[type="date"] {
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"] {
+  width: 150px;
+}
+
+/* Estilo para o container de inputs e imagem */
+.input-imagem {
+  display: flex;
+  gap: 20px;
+}
+
+/* Estilos para os inputs à esquerda */
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex: 1;
+}
+
+/* Estilos para as áreas de habilidades e descrição */
+.skills-selector,
+.input-description {
+  display: flex;
+  flex-direction: column;
+}
+
+.skills-selector input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.selected-skills {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill-tag {
+  background-color: #d3d3d3;
+  padding: 5px 10px;
+  border-radius: 15px;
+}
+
+/* Estilo para a área de upload da imagem */
+/* Estilo para a área de upload da imagem */
+.imagem-upload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.imagem-area {
+  width: 200px;
+  max-width: 300px; /* Largura máxima da área de upload */
+  height: 200px; /* Altura da área */
+  border: 2px dashed #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: #f4f4f4;
+  position: relative; /* Para controlar o posicionamento do ícone ou da imagem */
+}
+
+.imagem-area .icon {
+  font-size: 40px;
+  color: #888;
+}
+
+.imagem-area img {
+  width: 100%; /* Garantir que a imagem ocupe toda a largura do espaço */
+  height: 100%; /* Garantir que a imagem ocupe toda a altura do espaço */
+  object-fit: cover; /* Garantir que a imagem não deforme */
+}
+
+/* Para garantir que a imagem ocupando o espaço não estoure o contêiner */
+.imagem-area img,
+.imagem-area .icon {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Estilo para o botão de envio */
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #ffd700;
+  color: #0e0f0e;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Estilo para os campos "Valor Mínimo", "Prazo Mínimo de Entrega" e "Fechamento do Projeto" */
+.input-valor,
+.input-prazo,
+.input-fechamento {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-valor label,
+.input-prazo label,
+.input-fechamento label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.input-valor input,
+.input-prazo input,
+.input-fechamento input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%; /* O input ocupa toda a largura disponível */
+}
+
+.input-valor input[type="number"],
+.input-prazo input[type="date"],
+.input-fechamento input[type="date"] {
+  -moz-appearance: textfield; /* Para remover a seta do input number no Firefox */
+}
+
+.input-valor input::placeholder,
+.input-prazo input::placeholder,
+.input-fechamento input::placeholder {
+  font-style: italic;
+  color: #888;
+}
