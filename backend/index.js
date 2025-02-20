@@ -352,6 +352,79 @@ app.post("/google_auth", async (req, res) => {
   }
 });
 
+// Endpoint para deletar empresa
+app.delete("/api/delete_empresa/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  if (!userId) {
+    return res.status(400).json({ error: "ID da empresa não fornecido." });
+  }
+
+  try {
+    // Deleta o usuário do Firebase Auth
+    const userRecord = await admin.auth().getUser(userId);
+    if (!userRecord) {
+      return res.status(404).json({ error: "Empresa não encontrada." });
+    }
+
+    // Deleta o usuário do Firebase Auth
+    await admin.auth().deleteUser(userId);
+
+    // Deleta o usuário do Firestore
+    await db.collection("users").doc(userId).delete();
+
+    return res.status(200).json({ message: "Empresa deletada com sucesso!" });
+  } catch (error) {
+    console.error("Erro ao deletar empresa:", error);
+    return res.status(500).json({ error: "Erro ao deletar empresa." });
+  }
+});
+
+// Endpoint para editar empresa
+app.patch("/api/edit_empresa/:userId", async (req, res) => {
+  const { userId } = req.params;
+  const { name, email, password } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ error: "ID da empresa não fornecido." });
+  }
+
+  if (!name && !email && !password) {
+    return res.status(400).json({ error: "Pelo menos um campo deve ser fornecido para edição." });
+  }
+
+  try {
+    // Obtém o documento do usuário
+    const userDoc = await db.collection("users").doc(userId).get();
+
+    if (!userDoc.exists) {
+      return res.status(404).json({ error: "Empresa não encontrada." });
+    }
+
+    const userData = userDoc.data();
+
+    // Atualiza os dados da empresa no Firebase Authentication se necessário
+    if (email) {
+      await admin.auth().updateUser(userData.firebaseUid, { email });
+    }
+    if (password) {
+      await admin.auth().updateUser(userData.firebaseUid, { password });
+    }
+
+    // Atualiza os dados da empresa no Firestore
+    const updatedData = {};
+    if (name) updatedData.name = name;
+    if (email) updatedData.email = email;
+
+    await db.collection("users").doc(userId).update(updatedData);
+
+    return res.status(200).json({ message: "Empresa atualizada com sucesso!" });
+  } catch (error) {
+    console.error("Erro ao editar empresa:", error);
+    return res.status(500).json({ error: "Erro ao editar empresa." });
+  }
+});
+
 // Inicializar o servidor
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
