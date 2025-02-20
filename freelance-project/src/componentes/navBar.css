@@ -43,3 +43,8 @@ div.img {
 #navBar .link:hover {
   color: #ffd700;
 }
+.settings-button {
+  background-color: transparent;
+  color: #ffd700;
+  border: none;
+}

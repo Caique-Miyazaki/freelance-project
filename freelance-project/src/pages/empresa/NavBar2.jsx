@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { FiSettings } from "react-icons/fi"; // Importando o ícone de engrenagem
 import "../../componentes/navBar.css";
 import logo from "../../assets/favicon.ico";
 
 const NavBar2 = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   return (
     <nav id="navBar">
       <div className="cabeçalho">
@@ -27,6 +35,20 @@ const NavBar2 = () => {
             <button className="link-cadastre">Listar propostas</button>
           </Link>
         </p>
+        <div className="settings-dropdown">
+          <button className="settings-button" onClick={toggleDropdown}>
+            <FiSettings size={24} />
+          </button>
+          {isDropdownOpen && (
+            <ul className="dropdown-menu">
+              <li>
+                <Link to="/editar-empresa" className="dropdown-link">
+                  Editar Empresa
+                </Link>
+              </li>
+            </ul>
+          )}
+        </div>
       </div>
     </nav>
   );

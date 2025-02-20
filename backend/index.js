@@ -18,7 +18,7 @@ const app = express();
 app.use(
   cors({
     origin: "http://localhost:5173", // Substitua pela URL do seu frontend
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true, // Permite o uso de cookies/sessões
   })
 );
@@ -381,34 +381,41 @@ app.delete("/api/delete_empresa/:userId", async (req, res) => {
 });
 
 // Endpoint para editar empresa
-app.patch("/api/edit_empresa/:userId", async (req, res) => {
-  const { userId } = req.params;
+app.patch("/api/edit_empresa/:firebaseUid", async (req, res) => {
+  const { firebaseUid } = req.params;
   const { name, email, password } = req.body;
 
-  if (!userId) {
-    return res.status(400).json({ error: "ID da empresa não fornecido." });
+  if (!firebaseUid) {
+    return res.status(400).json({ error: "firebaseUid não fornecido." });
   }
 
   if (!name && !email && !password) {
-    return res.status(400).json({ error: "Pelo menos um campo deve ser fornecido para edição." });
+    return res
+      .status(400)
+      .json({ error: "Pelo menos um campo deve ser fornecido para edição." });
   }
 
   try {
-    // Obtém o documento do usuário
-    const userDoc = await db.collection("users").doc(userId).get();
+    // Busca o documento no Firestore com base no firebaseUid
+    const userSnapshot = await db
+      .collection("users")
+      .where("firebaseUid", "==", firebaseUid)
+      .limit(1)
+      .get();
 
-    if (!userDoc.exists) {
+    if (userSnapshot.empty) {
       return res.status(404).json({ error: "Empresa não encontrada." });
     }
 
-    const userData = userDoc.data();
+    const userDoc = userSnapshot.docs[0];
+    const userId = userDoc.id; // Obtém o ID do documento no Firestore
 
-    // Atualiza os dados da empresa no Firebase Authentication se necessário
+    // Atualiza os dados da empresa no Firebase Authentication, se necessário
     if (email) {
-      await admin.auth().updateUser(userData.firebaseUid, { email });
+      await admin.auth().updateUser(firebaseUid, { email });
     }
     if (password) {
-      await admin.auth().updateUser(userData.firebaseUid, { password });
+      await admin.auth().updateUser(firebaseUid, { password });
     }
 
     // Atualiza os dados da empresa no Firestore
