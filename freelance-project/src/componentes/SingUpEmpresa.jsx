@@ -34,13 +34,16 @@ const SignUpEmpresaPage = () => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, password, userType: "empresa" }), // Enviando dados do tipo 'empresa'
+          body: JSON.stringify({ name, email, password, userType: "empresa" }),
         }
       );
 
       if (!response.ok) {
         throw new Error("Erro ao criar conta.");
       }
+
+      const data = await response.json();
+      localStorage.setItem("FirebaseId", data.firebaseUid); // Salva o UID no localStorage
 
       alert("Cadastro realizado com sucesso!");
       navigate("/login");

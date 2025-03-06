@@ -1,14 +1,41 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { FiSettings } from "react-icons/fi"; // Importando o ícone de engrenagem
+import { FiSettings } from "react-icons/fi";
+import axios from "axios"; // Importando o axios para requisições HTTP
 import "../../componentes/navBar.css";
 import logo from "../../assets/favicon.ico";
 
 const NavBar2 = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleDeleteAccount = async () => {
+    const firebaseUid = localStorage.getItem("FirebaseId");
+
+    if (!firebaseUid) {
+      alert("Usuário não autenticado.");
+      return;
+    }
+
+    try {
+      const response = await axios.delete(
+        `http://localhost:5000/api/delete_empresa/${firebaseUid}`
+      );
+
+      if (response.status === 200) {
+        alert("Conta deletada com sucesso!");
+        localStorage.removeItem("FirebaseId"); // Limpa o localStorage
+        navigate("/login"); // Redireciona para a página de login
+      }
+    } catch (error) {
+      console.error("Erro ao deletar conta:", error);
+      alert("Erro ao deletar conta. Tente novamente.");
+    }
   };
 
   return (
@@ -46,10 +73,28 @@ const NavBar2 = () => {
                   Editar Empresa
                 </Link>
               </li>
+              <li>
+                <button
+                  className="dropdown-link delete-account"
+                  onClick={() => setShowConfirmation(true)}
+                >
+                  Deletar Conta
+                </button>
+              </li>
             </ul>
           )}
         </div>
       </div>
+
+      {showConfirmation && (
+        <div className="confirmation-modal" style={{}}>
+          <p>Tem certeza que deseja deletar a sua conta?</p>
+          <div>
+            <button onClick={handleDeleteAccount}>Sim</button>
+            <button onClick={() => setShowConfirmation(false)}>Não</button>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
