@@ -432,6 +432,26 @@ app.patch("/api/edit_empresa/:firebaseUid", async (req, res) => {
   }
 });
 
+// Endpoint para listar empresas
+app.get("/api/empresas", async (req, res) => {
+  try {
+    const snapshot = await db
+      .collection("users")
+      .where("userType", "==", "empresa")
+      .get();
+
+    const empresas = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return res.status(200).json(empresas);
+  } catch (error) {
+    console.error("Erro ao buscar empresas:", error);
+    return res.status(500).json({ error: "Erro ao buscar empresas." });
+  }
+});
+
 // Inicializar o servidor
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
