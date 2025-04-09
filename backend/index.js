@@ -452,6 +452,32 @@ app.get("/api/empresas", async (req, res) => {
   }
 });
 
+// Endpoint para excluir vaga
+app.delete("/api/delete_project/:projectId", async (req, res) => {
+  const { projectId } = req.params;
+
+  if (!projectId) {
+    return res.status(400).json({ error: "ID do projeto não fornecido." });
+  }
+
+  try {
+    // Verifica se o projeto existe no Firestore
+    const projectDoc = await db.collection("projects").doc(projectId).get();
+
+    if (!projectDoc.exists) {
+      return res.status(404).json({ error: "Projeto não encontrado." });
+    }
+
+    // Exclui o projeto do Firestore
+    await db.collection("projects").doc(projectId).delete();
+
+    return res.status(200).json({ message: "Projeto excluído com sucesso!" });
+  } catch (error) {
+    console.error("Erro ao excluir projeto:", error);
+    return res.status(500).json({ error: "Erro ao excluir projeto." });
+  }
+});
+
 // Inicializar o servidor
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
