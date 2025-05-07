@@ -82,6 +82,7 @@ app.post("/api/register_project", async (req, res) => {
     projectName,
     minValue,
     minDeadline,
+    firebaseUid,
     projectClosure,
     skills,
     description,
@@ -92,6 +93,7 @@ app.post("/api/register_project", async (req, res) => {
     !projectName ||
     !minValue ||
     !minDeadline ||
+    !firebaseUid ||
     !skills ||
     skills.length === 0
   ) {
@@ -117,6 +119,7 @@ app.post("/api/register_project", async (req, res) => {
       projectClosure,
       skills, // Salva como array
       description,
+      firebaseUid,
       createdAt: new Date().toISOString(),
     });
 
@@ -131,27 +134,38 @@ app.post("/api/register_project", async (req, res) => {
 });
 // Endpoint para obter as vagas criadas pela empresa
 app.get("/api/empresa/vagas", async (req, res) => {
-  const { companyUid } = req.query; // Recebe o companyUid da query
+  const { firebaseUid } = req.query; // Recebe o firebaseUid da query
 
-  if (!companyUid) {
-    return res.status(400).json({ error: "companyUid não fornecido." });
+  // Verifica se o firebaseUid foi fornecido
+  if (!firebaseUid || typeof firebaseUid !== 'string') {
+    return res.status(400).json({ error: "firebaseUid não fornecido ou inválido." });
   }
 
   try {
-    // Busca as vagas no Firestore relacionadas ao companyUid
+    // Busca as vagas no Firestore relacionadas ao firebaseUid
     const projectsSnapshot = await db
-      .collection("projects")
-      .where("firebaseUid", "==", companyUid)
+      .collection("projects") // Certifique-se de que o nome da coleção está correto
+      .where("firebaseUid", "==", firebaseUid)
       .get();
 
-    const projects = projectsSnapshot.docs.map((doc) => doc.data());
+    // Se não encontrar vagas, retorna um status 404
+    if (projectsSnapshot.empty) {
+      return res.status(404).json({ message: "Nenhuma vaga encontrada para esta empresa." });
+    }
 
-    res.status(200).json(projects);
+    // Mapeia os documentos para extrair os dados
+    const projects = projectsSnapshot.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() }; // Adiciona o ID do documento na resposta
+    });
+
+    // Retorna as vagas encontradas
+    res.status(200).json({ vagas: projects });
   } catch (error) {
     console.error("Erro ao buscar as vagas da empresa:", error);
-    res.status(500).json({ error: "Erro ao buscar as vagas da empresa." });
+    res.status(500).json({ error: "Erro interno ao buscar as vagas da empresa." });
   }
 });
+
 
 app.post("/api/candidatar", async (req, res) => {
   const { freelancerId, projectId, propostaValor, propostaData } = req.body;

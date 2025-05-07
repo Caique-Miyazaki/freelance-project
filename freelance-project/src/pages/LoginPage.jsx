@@ -7,6 +7,8 @@ import PropTypes from "prop-types"; // Importação do PropTypes
 import "./Styles/login.css";
 import logo from "../assets/favicon.ico";
 
+
+
 const LoginPage = ({ setUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,6 +35,7 @@ const LoginPage = ({ setUser }) => {
         where("firebaseUid", "==", userUID)
       );
       const querySnapshot = await getDocs(q);
+      localStorage.setItem("firebaseUid", userUID)
 
       if (!querySnapshot.empty) {
         const userData = querySnapshot.docs[0].data();

@@ -17,6 +17,8 @@ import FreelanceInProjeto from "./pages/empresa/FreelanceInProjeto.jsx";
 import Proposta from "./componentes/freelance/proposta.jsx";
 import PropostasPage from "./pages/empresa/ListarPropostas.jsx";
 import EditarEmpresa from "./pages/empresa/EditarEmpresa.jsx";
+import ListagemVagas from "./pages/empresa/VagasEmpresa.jsx";
+import ListagemProjetos from "./pages/empresa/VagasEmpresa.jsx";
 
 function Root() {
   const [user, setUser] = useState(null);
@@ -40,6 +42,7 @@ function Root() {
             <Route path="/vagas/proposta/:projectId" element={<Proposta />} />
             <Route path="/freelance" element={<FreelanceInProjeto />} />
             <Route path="/listarPropostas" element={<PropostasPage />} />
+            <Route path="/listarProjetosEmpresa"   element={<ListagemProjetos/>}/>
             <Route path="/editar-empresa" element={<EditarEmpresa />} />
 
             <Route

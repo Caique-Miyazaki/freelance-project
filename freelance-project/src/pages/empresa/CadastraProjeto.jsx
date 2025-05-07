@@ -28,11 +28,13 @@ const CadastraProjeto = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const firebaseUid = localStorage.getItem("firebaseUid")
     const formData = {
       companyName, // Incluído corretamente
       projectName,
       minValue,
       minDeadline,
+      firebaseUid,
       projectClosure,
       skills: selectedSkills,
       description: projectDescription,

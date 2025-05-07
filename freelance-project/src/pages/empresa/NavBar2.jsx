@@ -62,6 +62,13 @@ const NavBar2 = () => {
             <button className="link-cadastre">Listar propostas</button>
           </Link>
         </p>
+        <p>
+          <Link to="/listarProjetosEmpresa" className="link">
+            <button className="link-cadastre">Listar Meu Projetos</button>
+          </Link>
+        </p>
+
+        
         <div className="settings-dropdown">
           <button className="settings-button" onClick={toggleDropdown}>
             <FiSettings size={24} />
