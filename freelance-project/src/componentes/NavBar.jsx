@@ -19,7 +19,7 @@ const NavBar = () => {
       <div className="login-register">
         <p>
           <Link to="/login" className="link">
-            faça o login
+            Faça o login
           </Link>
         </p>
         <p>

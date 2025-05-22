@@ -18,8 +18,15 @@ const NavBarFree = () => {
 
       <div className="login-register">
         <p>
-          <Link to="#" className="link">
-            Listar minhas vagas
+          <Link to="/vagas" className="link">
+            Listar vagas
+          </Link>
+        </p>
+      </div>
+      <div >
+        <p>
+          <Link to="/empresas" className="link">
+            Listar empresas
           </Link>
         </p>
       </div>

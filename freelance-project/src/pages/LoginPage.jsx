@@ -71,19 +71,19 @@ const LoginPage = ({ setUser }) => {
     <div className="login-wrapper">
       <div className="container-login">
         <img src={logo} alt="Logo" />
-        <h2>Login</h2>
+        <h2>Freela</h2>
         {error && <p className="error-message">{error}</p>}
         <input
           className="input-password-email"
           type="email"
-          placeholder="Digite seu email"
+          placeholder="Digite seu email:"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           className="input-password-email"
           type="password"
-          placeholder="Digite sua senha"
+          placeholder="Digite sua senha:"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
