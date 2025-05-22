@@ -46,7 +46,7 @@ const NavBar2 = () => {
         </div>
         <h2>
           <Link to="/home" className="link">
-            Nome do Site
+            Freela
           </Link>
         </h2>
       </div>
