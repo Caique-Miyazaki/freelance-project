@@ -478,6 +478,120 @@ app.delete("/api/delete_project/:projectId", async (req, res) => {
   }
 });
 
+app.get("/users", async (req, res) => {
+  const currentUid = req.query.currentUid || "";
+  try {
+    const snapshot = await db.collection("users").get();
+    const lista = snapshot.docs
+      .filter(doc => {
+        return doc.data().firebaseUid !== currentUid;
+      })
+      .map(doc => {
+        const data = doc.data();
+        return {
+          uid: data.firebaseUid,
+          name: data.name,
+          email: data.email,
+          userType: data.userType,
+        };
+      });
+
+    return res.status(200).json(lista);
+  } catch (error) {
+    console.error("Erro ao buscar usuários:", error);
+    return res.status(500).json({ error: "Erro interno." });
+  }
+});
+
+app.post("/chat/create", async (req, res) => {
+  const { uid1, uid2 } = req.body;
+  if (!uid1 || !uid2) {
+    return res.status(400).json({ error: "uid1 e uid2 são obrigatórios." });
+  }
+
+  const chatId = [uid1, uid2].sort().join("_");
+  try {
+    const chatRef = db.collection("chats").doc(chatId);
+    const chatDoc = await chatRef.get();
+
+    if (!chatDoc.exists) {
+      await chatRef.set({
+        participants: [uid1, uid2],
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      });
+    }
+    return res.status(200).json({ chatId });
+  } catch (error) {
+    console.error("Erro ao criar/recuperar chat:", error);
+    return res.status(500).json({ error: "Erro interno." });
+  }
+});
+
+app.post("/chat/:chatId/message", async (req, res) => {
+  const { chatId } = req.params;
+  const { senderUid, text } = req.body;
+
+  if (!senderUid || !text || !text.trim()) {
+    return res.status(400).json({ error: "senderUid e text não podem ser vazios." });
+  }
+
+  try {
+    const chatDoc = await db.collection("chats").doc(chatId).get();
+    if (!chatDoc.exists) {
+      return res.status(404).json({ error: "Chat não encontrado." });
+    }
+
+    const msgRef = await db
+      .collection("chats")
+      .doc(chatId)
+      .collection("messages")
+      .add({
+        text,
+        sender: senderUid,
+        timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      });
+
+    return res.status(201).json({ messageId: msgRef.id });
+  } catch (error) {
+    console.error("Erro ao enviar mensagem:", error);
+    return res.status(500).json({ error: "Erro interno." });
+  }
+});
+
+app.get("/chat/:chatId/messages", async (req, res) => {
+  const { chatId } = req.params;
+
+  try {
+    const chatDoc = await db.collection("chats").doc(chatId).get();
+    if (!chatDoc.exists) {
+      return res.status(404).json({ error: "Chat não encontrado." });
+    }
+
+    const msgsSnapshot = await db
+      .collection("chats")
+      .doc(chatId)
+      .collection("messages")
+      .orderBy("timestamp", "asc")
+      .get();
+
+    const msgs = msgsSnapshot.docs.map(doc => {
+      const d = doc.data();
+      return {
+        id: doc.id,
+        text: d.text,
+        sender: d.sender,
+        // timestamp pode ser convertido em ISO para o front
+        timestamp: d.timestamp ? d.timestamp.toDate().toISOString() : null,
+      };
+    });
+
+    return res.status(200).json(msgs);
+  } catch (error) {
+    console.error("Erro ao obter mensagens:", error);
+    return res.status(500).json({ error: "Erro interno." });
+  }
+});
+
 // Inicializar o servidor
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
